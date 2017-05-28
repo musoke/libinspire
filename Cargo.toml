@@ -1,7 +1,28 @@
 [package]
-name = "libinspire"
-version = "0.1.0-alpha"
 authors = ["Nathan Musoke <nathan.musoke@gmail.com>"]
+description = "For interacting with API of inspirehep.net"
+name = "libinspire"
+publish = false
+version = "0.1.0-alpha"
+
+[badges]
+
+[badges.appveyor]
+branch = "master"
+repository = "musoke/libinspire"
+service = "github"
+
+[badges.gitlab]
+branch = "master"
+repository = "musoke/libinspire"
+
+[badges.travis-ci]
+branch = "master"
+repository = "musoke/libinspire"
 
 [dependencies]
-
+regex = "0.2"
+reqwest = "0.5.0"
+select = "0.3.0"
+slog = "1.4.1"
+slog-stdlog = "1.1.0"
