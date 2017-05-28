@@ -1,0 +1,75 @@
+stages:
+  - build
+  - test
+
+# Install build-essential and other dependencies
+before_script:
+  - apt-get update -yqq
+  - apt-get install -yqq --no-install-recommends build-essential
+  - apt-get install -yqq pkg-config
+  - apt-get install -yqq libssl-dev
+
+cache:
+  key: "$CI_COMMIT_REF_NAME"
+  paths:
+    - $HOME/.cargo
+
+build-stable:
+  image: scorpil/rust:stable
+  stage: build
+  script:
+    - cargo build
+    - cargo build --release
+  artifacts:
+    name: "{$CI_PROJECT_NAME}-{$CI_COMMIT_REF_NAME}-{$CI_COMMIT_SHA}-{$CI_JOB_NAME}"
+    paths:
+      - target
+
+test-stable:
+  image: scorpil/rust:stable
+  stage: test
+  dependencies:
+    - build-stable
+  script:
+    - cargo test
+    - cargo test --release
+
+build-beta:
+  image: scorpil/rust:beta
+  stage: build
+  allow_failure: true
+  script:
+    - cargo build
+  artifacts:
+    name: "{$CI_PROJECT_NAME}-{$CI_COMMIT_REF_NAME}-{$CI_COMMIT_SHA}-{$CI_JOB_NAME}"
+    paths:
+      - target
+
+test-beta:
+  image: scorpil/rust:beta
+  stage: test
+  allow_failure: true
+  dependencies:
+    - build-beta
+  script:
+    - cargo test
+
+build-nightly:
+  image: scorpil/rust:nightly
+  stage: build
+  allow_failure: true
+  script:
+    - cargo build
+  artifacts:
+    name: "{$CI_PROJECT_NAME}-{$CI_COMMIT_REF_NAME}-{$CI_COMMIT_SHA}-{$CI_JOB_NAME}"
+    paths:
+      - target
+
+test-nightly:
+  image: scorpil/rust:nightly
+  stage: test
+  allow_failure: true
+  dependencies:
+    - build-nightly
+  script:
+    - cargo test
