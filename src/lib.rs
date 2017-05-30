@@ -7,6 +7,9 @@ extern crate slog_stdlog;
 
 use slog::DrainExt;
 
+#[macro_use]
+extern crate lazy_static;
+
 extern crate regex;
 use regex::Regex;
 
@@ -18,6 +21,36 @@ use select::document::Document;
 use select::predicate::Name;
 
 use std::io::Read;
+
+pub struct RecID<'a> {
+    id: &'a str,
+}
+
+impl<'a> RecID<'a> {
+    pub fn new(s: &'a str) -> Result<Self, ()> {
+        match validate_recid(s) {
+            true => Ok(RecID { id: s }),
+            false => Err(()),
+        }
+    }
+}
+
+/// Test whether a string is a valid Inspire bibliographic code
+///
+/// # Examples
+///
+/// ```
+/// assert!(libinspire::validate_recid("Nambu:1961tp"))
+/// ```
+pub fn validate_recid(code: &str) -> bool {
+    // Use lazy_static to ensure that regexes are compiled only once
+    lazy_static! {
+        static ref REGEX: Regex = Regex::new(
+            r"^[[:alpha:].]+:[[:digit:]]{4}[[:alpha:]]{2}$").unwrap();
+    }
+
+    REGEX.is_match(code)
+}
 
 pub struct Api {
     logger: slog::Logger,
@@ -47,9 +80,9 @@ impl Api {
     /// let inspire = libinspire::Api::init(None);
     ///
     /// println!("{}", inspire.fetch_bibtex_with_key(
-    ///     "Abramovici:1992ah".to_string()).expect("Error"));
+    ///     libinspire::RecID::new("Abramovici:1992ah").unwrap()).expect("Error"));
     /// ```
-    pub fn fetch_bibtex_with_key(&self, key: String) -> Option<String> {
+    pub fn fetch_bibtex_with_key(&self, key: RecID) -> Option<String> {
 
         let mut api_url: Url = Url::parse("https://inspirehep.net")
             .expect("Unable to parse API URL")
@@ -58,7 +91,7 @@ impl Api {
         api_url
             .query_pairs_mut()
             .append_pair("of", "hx")
-            .append_pair("p", &key);
+            .append_pair("p", &key.id);
 
         debug!(self.logger, "Querying inspire API";
                "URL" => api_url.to_string());
