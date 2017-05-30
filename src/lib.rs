@@ -19,22 +19,22 @@ use select::predicate::Name;
 
 use std::io::Read;
 
-pub struct Inspire {
+pub struct Api {
     logger: slog::Logger,
 }
 
-impl Inspire {
-    /// Initialize 'Inspirer'
+impl Api {
+    /// Initialize API
     ///
     /// Either provide a custom slog::Logger or default to the standard `log`
     /// crate.
     ///
     /// # Examples
     /// ```
-    /// libinspire::Inspire::init(None);
+    /// libinspire::Api::init(None);
     /// ```
     pub fn init(logger: Option<slog::Logger>) -> Self {
-        Inspire {
+        Api {
             logger: logger.unwrap_or_else(|| slog::Logger::root(slog_stdlog::StdLog.fuse(), o!())),
         }
     }
@@ -44,7 +44,7 @@ impl Inspire {
     /// # Examples
     ///
     /// ```
-    /// let inspire = libinspire::Inspire::init(None);
+    /// let inspire = libinspire::Api::init(None);
     ///
     /// println!("{}", inspire.fetch_bibtex_with_key(
     ///     "Abramovici:1992ah".to_string()).expect("Error"));
@@ -83,6 +83,6 @@ impl Inspire {
 
 #[cfg(test)]
 mod tests {
-    #[test]
-    fn it_works() {}
+    // #[test]
+    // fn it_works() {}
 }
