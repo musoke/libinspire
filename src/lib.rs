@@ -24,7 +24,7 @@ use std::io::Read;
 
 #[derive(Debug,PartialEq)]
 pub struct RecID<'a> {
-    id: &'a str,
+    pub id: &'a str,
 }
 
 impl<'a> RecID<'a> {
