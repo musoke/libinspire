@@ -22,6 +22,7 @@ use select::predicate::Name;
 
 use std::io::Read;
 
+#[derive(Debug,PartialEq)]
 pub struct RecID<'a> {
     id: &'a str,
 }
