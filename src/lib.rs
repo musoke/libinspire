@@ -47,7 +47,7 @@ pub fn validate_recid(code: &str) -> bool {
     // Use lazy_static to ensure that regexes are compiled only once
     lazy_static! {
         static ref REGEX: Regex = Regex::new(
-            r"^[[:alpha:].]+:[[:digit:]]{4}[[:alpha:]]{2}$").unwrap();
+            r"^[[:alpha:].]+:[[:digit:]]{4}[[:alpha:]]{2,3}$").unwrap();
     }
 
     REGEX.is_match(code)
