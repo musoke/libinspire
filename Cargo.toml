@@ -3,8 +3,8 @@ authors = ["Nathan Musoke <nathan.musoke@gmail.com>"]
 description = "For interacting with API of inspirehep.net"
 name = "libinspire"
 repository = "https://github.com/musoke/libinspire"
-publish = true
-version = "0.1.0-alpha"
+publish = false
+version = "0.1.0-beta"
 license = "Apache-2.0"
 
 [badges]
