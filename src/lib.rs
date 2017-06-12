@@ -27,7 +27,11 @@ pub struct RecID<'a> {
     pub id: &'a str,
 }
 
-/// Create RecID
+/// Create RecID from &str
+///
+/// Returns a `Result<Self, ()>` as this can fail.
+/// In future I may also implement `std::convert::TryFrom`, currently a [nightly only
+/// feature](https://github.com/rust-lang/rust/issues/33417).
 ///
 /// # Examples
 ///
