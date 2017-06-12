@@ -4,6 +4,7 @@ description = "For interacting with API of inspirehep.net"
 name = "libinspire"
 publish = false
 version = "0.1.0-alpha"
+license = "Apache-2.0"
 
 [badges]
 
