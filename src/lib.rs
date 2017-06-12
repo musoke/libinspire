@@ -27,6 +27,14 @@ pub struct RecID<'a> {
     pub id: &'a str,
 }
 
+/// Create RecID
+///
+/// # Examples
+///
+/// ```
+/// extern crate libinspire;
+/// libinspire::RecID::new("Bekenstein:1973ur");
+/// ```
 impl<'a> RecID<'a> {
     pub fn new(s: &'a str) -> Result<Self, ()> {
         match validate_recid(s) {
