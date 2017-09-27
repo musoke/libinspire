@@ -40,7 +40,8 @@ pub struct RecID<'a> {
 /// libinspire::RecID::new("Bekenstein:1973ur");
 /// ```
 impl<'a> RecID<'a> {
-    pub fn new(s: &'a str) -> Result<Self, ()> {
+    pub fn new<S: Into<&'a str>>(s: S) -> Result<Self, ()> {
+        let s = s.into();
         match validate_recid(s) {
             true => Ok(RecID { id: s }),
             false => Err(()),
