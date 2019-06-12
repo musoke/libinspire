@@ -2,7 +2,7 @@
 ///
 /// Users of this library can, but don't have to use slog to build their own loggers
 #[macro_use]
-pub extern crate slog ;
+pub extern crate slog;
 extern crate slog_stdlog;
 
 use slog::DrainExt;
@@ -22,7 +22,7 @@ use select::predicate::Name;
 
 use std::io::Read;
 
-#[derive(Debug,PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct RecID<'a> {
     pub id: &'a str,
 }
@@ -59,8 +59,8 @@ impl<'a> RecID<'a> {
 pub fn validate_recid(code: &str) -> bool {
     // Use lazy_static to ensure that regexes are compiled only once
     lazy_static! {
-        static ref REGEX: Regex = Regex::new(
-            r"^[[:alpha:].]+:[[:digit:]]{4}[[:alpha:]]{2,3}$").unwrap();
+        static ref REGEX: Regex =
+            Regex::new(r"^[[:alpha:].]+:[[:digit:]]{4}[[:alpha:]]{2,3}$").unwrap();
     }
 
     REGEX.is_match(code)
@@ -97,7 +97,6 @@ impl Api {
     ///     libinspire::RecID::new("Abramovici:1992ah").unwrap()).expect("Error"));
     /// ```
     pub fn fetch_bibtex_with_key(&self, key: RecID) -> Option<String> {
-
         let mut api_url: Url = Url::parse("https://inspirehep.net")
             .expect("Unable to parse API URL")
             .join("search")
@@ -120,11 +119,13 @@ impl Api {
 
         let document = Document::from(html.as_str());
 
-        Some(document
-                 .find(Name("pre"))
-                 .first()
-                 .expect("No text found.")
-                 .text())
+        Some(
+            document
+                .find(Name("pre"))
+                .first()
+                .expect("No text found.")
+                .text(),
+        )
     }
 }
 
