@@ -15,7 +15,7 @@ cache:
     - $HOME/.cargo
 
 build-stable:
-  image: scorpil/rust:stable
+  image: rust:latest
   stage: build
   script:
     - cargo build
@@ -26,7 +26,7 @@ build-stable:
       - target
 
 test-stable:
-  image: scorpil/rust:stable
+  image: rust:latest
   stage: test
   dependencies:
     - build-stable
@@ -34,28 +34,8 @@ test-stable:
     - cargo test
     - cargo test --release
 
-build-beta:
-  image: scorpil/rust:beta
-  stage: build
-  allow_failure: true
-  script:
-    - cargo build
-  artifacts:
-    name: "{$CI_PROJECT_NAME}-{$CI_COMMIT_REF_NAME}-{$CI_COMMIT_SHA}-{$CI_JOB_NAME}"
-    paths:
-      - target
-
-test-beta:
-  image: scorpil/rust:beta
-  stage: test
-  allow_failure: true
-  dependencies:
-    - build-beta
-  script:
-    - cargo test
-
 build-nightly:
-  image: scorpil/rust:nightly
+  image: rustlang/rust:nightly
   stage: build
   allow_failure: true
   script:
@@ -66,7 +46,7 @@ build-nightly:
       - target
 
 test-nightly:
-  image: scorpil/rust:nightly
+  image: rustlang/rust:nightly
   stage: test
   allow_failure: true
   dependencies:
