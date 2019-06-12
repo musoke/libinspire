@@ -8,7 +8,7 @@
 Rudimentary rust API for [INSPIRE](https://inspirehep.net/), the High Energy Physics information system.
 
 It currently just uses the website to fetch BibTeX entries.
-I am using it for another project, [inspirer](https://github.com/musoke/inspirer/).
+I am using it for another project, [inspirer](https://gitlab.com/musoke/inspirer/).
 
 ## Licence
 
