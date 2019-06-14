@@ -26,7 +26,7 @@ repository = "musoke/libinspire"
 [dependencies]
 lazy_static = "0.2.8"
 regex = "0.2.2"
-reqwest = "0.5.0"
+reqwest = "0.9.8"
 select = "0.3.0"
 slog = "1.4.1"
 slog-stdlog = "1.1.0"
