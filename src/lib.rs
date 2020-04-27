@@ -86,7 +86,7 @@ impl Api {
         }
     }
 
-    /// Fetches BibTeX entries from inspire.net.
+    /// Fetches BibTeX entries from old.inspire.net.
     ///
     /// # Examples
     ///
@@ -97,7 +97,7 @@ impl Api {
     ///     libinspire::RecID::new("Abramovici:1992ah").unwrap()).expect("Error"));
     /// ```
     pub fn fetch_bibtex_with_key(&self, key: RecID) -> Option<String> {
-        let mut api_url: Url = Url::parse("https://inspirehep.net")
+        let mut api_url: Url = Url::parse("https://old.inspirehep.net")
             .expect("Unable to parse API URL")
             .join("search")
             .unwrap();
