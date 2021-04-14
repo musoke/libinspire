@@ -16,10 +16,6 @@ use regex::Regex;
 extern crate reqwest;
 use reqwest::Url;
 
-extern crate select;
-use select::document::Document;
-use select::predicate::Name;
-
 use std::io::Read;
 
 #[derive(Debug, PartialEq)]
@@ -97,14 +93,16 @@ impl Api {
     ///     libinspire::RecID::new("Abramovici:1992ah").unwrap()).expect("Error"));
     /// ```
     pub fn fetch_bibtex_with_key(&self, key: RecID) -> Option<String> {
-        let mut api_url: Url = Url::parse("https://old.inspirehep.net")
+        let mut api_url: Url = Url::parse("https://inspirehep.net")
             .expect("Unable to parse API URL")
-            .join("search")
+            .join("api")
+            .unwrap()
+            .join("literature")
             .unwrap();
         api_url
             .query_pairs_mut()
-            .append_pair("of", "hx")
-            .append_pair("p", &key.id);
+            .append_pair("format", "bibtex")
+            .append_pair("q", &format!("texkey:{}", &key.id));
 
         debug!(self.logger, "Querying inspire API";
                "URL" => api_url.to_string());
@@ -112,20 +110,14 @@ impl Api {
         debug!(self.logger, "GET request completed";
                "HTTP response status" => response.status().to_string());
 
-        let mut html = String::new();
+        let mut bibtex_response = String::new();
         response
-            .read_to_string(&mut html)
+            .read_to_string(&mut bibtex_response)
             .expect("Failed to read response.");
 
-        let document = Document::from(html.as_str());
+        // TODO validate response
 
-        Some(
-            document
-                .find(Name("pre"))
-                .first()
-                .expect("No text found.")
-                .text(),
-        )
+        Some(bibtex_response)
     }
 }
 
